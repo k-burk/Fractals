@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+        attribute  vec4 vPosition;
+        attribute  vec4 vColor;
+        varying vec4 fColor;
+
+
+
+        void main()
+        {
+            fColor = vColor;
+            gl_Position = vPosition;
+        }
+    </script>
+
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+
+        precision mediump float;
+
+
+        varying vec4 fColor;
+
+        void
+        main()
+        {
+            gl_FragColor = fColor;
+        }
+    </script>
+
+
+<!--
+<script>
+    var openFile = function(event) {
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function(){
+            var text = reader.result;
+            console.log(text);
+            var node = document.getElementById('output');
+            node.innerText = text;
+            console.log(reader.result.substring(0, 200));
+        };
+        reader.readAsText(input.files[0]);
+    };
+</script>
+-->
+
+<!--<script>
+    function readFile(input) {
+        let file = input.files[0];
+
+        let reader = new FileReader();
+
+        reader.readAsText(file);
+
+        reader.onload = function() {
+            console.log(reader.result);
+        };
+
+        reader.onerror = function() {
+            console.log(reader.error);
+        };
+
+    }
+</script>-->
+
+
+<script type="text/javascript" src="Common/webgl-utils.js"></script>
+<script type="text/javascript" src="Common/initShaders.js"></script>
+<script type="text/javascript" src="Common/MV.js"></script>
+<script type="text/javascript" src="fractalTrees.js"></script>
+<script type="text/javascript" src="Rule.js"></script>
+<script type="text/javascript" src="geometry1.js"></script>
+
+<body>
+
+<!--<input type="file" onchange="readFile(this)">-->
+<!--
+<input type='file' accept='text/plain' onchange='openFile(event)' id = "myInput"><br>
+<div id='output'></div>
+-->
+
+<canvas id="gl-canvas" width="512" height="512">
+  Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+
+</body>
+</html>
