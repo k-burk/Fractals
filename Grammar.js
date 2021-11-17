@@ -120,41 +120,54 @@ const myTurtleStr = myRule.turtleStr("F", 3);
 
 
 
-    var tree = "F[+++]FFF[--]F[+++]"//grammar("F", 5);
-    var n = .2, pos=0, xmove = n/9, len = 0, tempPos = n/3;
+    var tree = "F[+++FF--]"//FFF[--]F[+++][FFF]"//grammar("F", 5);
+    var n = .2, pos=0, xmove = n/9, len = 0, tempy = n/3, straight = 0;
     var angle = 20;
     //length, pos, angle, iteration, xmove
     for (var i = 0; i < tree.length; i++) {
-        console.log(tree[i]);
+        //console.log(tree[i]);
+        console.log(pos);
+        skip = true;
         switch (tree[i]) {
             case 'F':
                 if (flag){
-                    branch(n, pos, 0, 0.02, -n / 6);
+                    branch(n, pos, 0, 0.04, 0);
                 }
                 else{
-                    branch(len, tempPos, 0, 0.02, xmove);
-                    tempPos = tempPos + n/2;
-                    xmove = xmove - n/3.3
+                    branch(len, (straight), 0, 0.02, xmove + n/4);
+                    straight = tempy - n/4;
+                    tempy = tempy + n/2;
+                    xmove = xmove + n/12;
                     len = n/1.2;
                 }
                 break;
             case '+':
-                if (flag){
-                    branchPlus(n, pos, 20, 0.02, -n / 6);
+
+                if (tree[i-1] == "-" || tree[i-1] == "F"){
+                    xmove = -xmove - n/4
+                    branchPlus(len, tempy, 20, 0.02, xmove);
                 }
                 else{
-                    branchPlus(len, tempPos, 20, 0.02, xmove);
-                    tempPos = len/1.2 + tempPos
+                    branchPlus(len, tempy, 20, 0.02, xmove);
+                    straight = tempy
+                    tempy = len/1.2 + tempy
                     xmove = xmove - n/4;
                     len = n/1.2;
                 }
                 break;
             case '-':
-                if(flag){
-                    branchMinus(n, pos, -angle, 0.02, -n / 6);
-                }else{
-                    branchMinus(len, tempPos, -angle, 0.02, xmove);
-                    tempPos = len/1.2 + tempPos;
+                if(tree[i-1] == "+" || tree[i-1] == "F"){
+                    xmove = -xmove - n/4
+                    branchMinus(len, tempy, -angle, 0.02, xmove);
+                    straight = tempy
+                    tempy = tempy + len/1.2;
+                    xmove = xmove - n/4;
+                    len = n/1.2;
+                }
+                else{
+                    branchMinus(len, tempy, -angle, 0.02, xmove);
+                    straight = tempy
+                    tempy = tempy + len/1.2;
                     xmove = xmove - n/4;
                     len = n/1.2;
                 }
@@ -165,13 +178,13 @@ const myTurtleStr = myRule.turtleStr("F", 3);
             case']':
                 flag = !flag;
                 len = n;
-                tempPos = n/3 + pos;
-                xmove = -n/9;
+                tempy = n/3 + pos;
+                xmove = -n/4;
+               var skip = false;
                 break;
         }
-        if (flag){
+        if (flag && skip){
             pos = pos + n/3;
-
         }
     }
 
